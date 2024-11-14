@@ -3,6 +3,7 @@ package com.coherentsolutions.advanced.java.restapi.controllers;
 import com.coherentsolutions.advanced.java.restapi.entity.Product;
 import com.coherentsolutions.advanced.java.restapi.exceptions.ProductNotFoundException;
 import com.coherentsolutions.advanced.java.restapi.repository.Ex03ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class Ex04ProductController {
      * @return Created product.
      */
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@Valid @RequestBody Product product) {
         return productRepository.save(product);
     }
 
@@ -55,7 +56,7 @@ public class Ex04ProductController {
      * @return Updated product if found, null otherwise.
      */
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public Product updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
         Optional<Product> existingProduct = productRepository.findById(id);
         if (existingProduct.isPresent()) {
             Product p = existingProduct.get();
