@@ -1,6 +1,7 @@
 package com.coherentsolutions.advanced.java.restapi.controllers;
 
 import com.coherentsolutions.advanced.java.restapi.entity.Product;
+import com.coherentsolutions.advanced.java.restapi.exceptions.ProductNotFoundException;
 import com.coherentsolutions.advanced.java.restapi.repository.Ex03ProductRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,11 +30,12 @@ public class Ex04ProductController {
      * Retrieves a product by ID.
      * @param id Product ID.
      * @return Product if found, null otherwise.
+     * @throws ProductNotFoundException in case product with id not found
      */
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
-        Optional<Product> product = productRepository.findById(id);
-        return product.orElse(null);
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     /**
